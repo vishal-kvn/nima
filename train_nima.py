@@ -14,10 +14,6 @@ import numpy as np
 import pandas as pd
 from torch import nn
 
-# import pdb
-# pdb.set_trace()
-
-# tfms = get_transforms(flip_vert=True, max_lighting=0.1, max_zoom=1.05, max_warp=0.)
 tfms = ([
     flip_lr(p=0.5),
     brightness(change=(0.4,0.6)),
@@ -40,29 +36,13 @@ class NimaLabelList(CategoryList):
         dist = np.array(dist.split(' '), dtype=int)
         return dist
 
-import pdb
-pdb.set_trace()
-# data = (ImageList.from_csv('./', 'labels_sample.csv', folder='data', suffix='.jpg')
-#         .split_by_rand_pct()
-#         .label_from_func(func, label_cls=NimaLabelList)
-#         .transform(tfms, size=224)
-#         .databunch(bs=8))
-
 data = ImageList.from_csv('./', 'labels_sample.csv', folder='data', suffix='.jpg')
 data = data.split_by_rand_pct()
 data = data.label_from_func(func, label_cls=NimaLabelList)
-# data = data.label_from_df(label_delim=' ')
 data = data.transform(tfms, size=224)
-import pdb
-pdb.set_trace()
 data = data.databunch(bs=8)
 
 x,y = next(iter(data.train_dl))
-import pdb
-pdb.set_trace()
-
-# For precision and recall curves
-# https://medium.com/analytics-vidhya/multi-label-classification-using-fastai-a-shallow-dive-into-fastai-data-block-api-54ea57b2c78b
 
 data.c = 10
 
@@ -78,4 +58,3 @@ learn = cnn_learner(data, arch, pretrained=True)
 learn.loss_func = emd
 
 y_hat = learn.model(x)
-
