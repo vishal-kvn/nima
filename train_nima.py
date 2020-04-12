@@ -34,6 +34,7 @@ class NimaLabelList(CategoryList):
     def get(self, i):
         dist = scores_map[self.items[i]]
         dist = np.array(dist.split(' '), dtype=int)
+        dist = dist / dist.sum()
         return dist
 
 data = ImageList.from_csv('./', 'labels_sample.csv', folder='data', suffix='.jpg')

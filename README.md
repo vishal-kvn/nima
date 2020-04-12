@@ -15,3 +15,6 @@ http://academictorrents.com/details/71631f83b11d3d79d8f84efe0a7e12f0ac001460
 yum install p7zip
 7za e path/to/ava/images/
 ```
+
+### Fastai installation
+Use pip to install fastai since the `mobilenet_v2` model is not available in the conda distribution.
